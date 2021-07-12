@@ -34,15 +34,13 @@
 <script>
 export default {
   components: {},
-  methods: {},
-  created: function () {},
+  asyncData({ store }) {
+    return store.dispatch('getAllStats')
+  },
   data() {
     return {
       stats: [],
     }
-  },
-  asyncData({ store, params, addBtn }) {
-    return store.dispatch('getAllStats')
   },
 }
 </script>

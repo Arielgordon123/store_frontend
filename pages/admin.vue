@@ -10,12 +10,12 @@
       :hide-default-footer="true"
       class="elevation-1"
     >
-      <template v-slot:top>
+      <template #top>
         <v-toolbar flat>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-dialog v-model="dialog" max-width="500px">
-            <template v-slot:activator="{ on, attrs }">
+            <template #activator="{ on, attrs }">
               <v-btn color="primary" dark class="mb-2" v-bind="attrs" v-on="on">
                 Add
               </v-btn>
@@ -84,17 +84,15 @@
           </v-dialog>
         </v-toolbar>
       </template>
-      <template v-slot:item.option="{ item }">
-        <v-btn @click="editItem(item)" color="warning">
+      <template #[`item.option`]="{ item }">
+        <v-btn color="warning" @click="editItem(item)">
           <v-icon small class="mr-2"> mdi-pencil </v-icon> edit
         </v-btn>
-        <v-btn @click="deleteItem(item)" color="error">
+        <v-btn color="error" @click="deleteItem(item)">
           <v-icon small> mdi-delete </v-icon> delete
         </v-btn>
       </template>
-    
     </v-data-table>
-
   </v-container>
 </template>
 
@@ -103,6 +101,52 @@ import { mapActions } from 'vuex'
 
 export default {
   components: {},
+  asyncData({ store }) {
+    return store.dispatch('getAllProducts')
+  },
+  data() {
+    return {
+      dialog: false,
+      dialogDelete: false,
+      headers: [
+        {
+          text: 'Title',
+
+          value: 'name',
+        },
+        { text: 'Price', value: 'price' },
+        { text: 'Option', value: 'option' },
+      ],
+      editedIndex: -1,
+      editedItem: {
+        name: '',
+        price: 0,
+        desc: '',
+        imageUrl: '',
+      },
+      defaultItem: {
+        name: '',
+        price: 0,
+        desc: '',
+        imageUrl: `https://picsum.photos/300?${Math.floor(
+          Math.random() * 100
+        )}`,
+      },
+    }
+  },
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    },
+  },
+  watch: {
+    dialog(val) {
+      val || this.close()
+    },
+    dialogDelete(val) {
+      val || this.closeDelete()
+    },
+  },
   methods: {
     ...mapActions(['deleteProduct', 'updateProduct', 'createProduct']),
     editItem(item) {
@@ -145,54 +189,6 @@ export default {
       }
       this.close()
     },
-  },
-  created: function () {},
-  data() {
-    return {
-      dialog: false,
-      dialogDelete: false,
-      headers: [
-        {
-          text: 'Title',
-
-          value: 'name',
-        },
-        { text: 'Price', value: 'price' },
-        { text: 'Option', value: 'option' },
-      ],
-      editedIndex: -1,
-      editedItem: {
-        name: '',
-        price: 0,
-        desc: '',
-        imageUrl: '',
-      },
-      defaultItem: {
-        name: '',
-        price: 0,
-        desc: '',
-        imageUrl:`https://picsum.photos/300?${Math.floor(Math.random() * 100)}`
-      },
-    }
-  },
-  watch: {
-    dialog(val) {
-      val || this.close()
-    },
-    dialogDelete(val) {
-      val || this.closeDelete()
-    },
-  },
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-    },
-  },
-  created() {
-    // this.initialize()
-  },
-  asyncData({ store, params, addBtn }) {
-    return store.dispatch('getAllProducts')
   },
 }
 </script>

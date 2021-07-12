@@ -11,7 +11,7 @@
         </v-col>
       </v-row>
 
-      <v-row fluid v-if="$store.state.products.length > 0">
+      <v-row  v-if="$store.state.products.length" fluid>
         <v-col
           v-for="product in $store.state.products"
           :key="product.id"
@@ -34,16 +34,9 @@ export default {
     product,
     cartDropDown
   },
-  methods: {
-    addNewCat() {
-      this.itemToEdit = {}
-      this.addDialog = true
-    },
-    clearEdit() {
-      // console.log('clear edit');
-      this.itemToEdit = null
-      this.addDialog = false
-    },
+ 
+  asyncData({ store }) {
+    return store.dispatch('getAllProducts')
   },
   data() {
     return {
@@ -59,8 +52,16 @@ export default {
       hints: true,
     }
   },
-  asyncData({ store, params, addBtn }) {
-    return store.dispatch('getAllProducts')
+   methods: {
+    addNewCat() {
+      this.itemToEdit = {}
+      this.addDialog = true
+    },
+    clearEdit() {
+      // console.log('clear edit');
+      this.itemToEdit = null
+      this.addDialog = false
+    },
   },
 }
 </script>

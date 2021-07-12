@@ -44,44 +44,44 @@ export const mutations = {
   },
   updateProduct(store, product) {
     store.products = store.products.map((obj) =>
-      obj._id == product._id ? { ...product } : obj
+      obj._id === product._id ? { ...product } : obj
     )
   },
   deleteProduct(store, product) {
     store.products = store.products.filter((value) => {
-      return value._id != product
+      return value._id !== product
     })
   },
-  sendTransaction(store, transaction) {
+  sendTransaction(store) {
     store.cart = []
     store.total = 0
   },
   addProductToCart(store, product) {
-    let found = store.cart.filter((value) => value._id == product._id)
+    const found = store.cart.filter((value) => value._id === product._id)
     if (found.length) {
       found[0].count = found[0].count ? ++found[0].count : 1
       store.cart = store.cart.map((obj) =>
-        obj._id == found[0]._id ? { ...found[0] } : obj
+        obj._id === found[0]._id ? { ...found[0] } : obj
       )
     } else {
       store.cart.push({ ...product, count: 1 })
     }
   },
   removeProductFromCart(store, product) {
-    store.cart = store.cart.filter((value, index, arr) => {
-      return value != product.id
+    store.cart = store.cart.filter((value) => {
+      return value !== product.id
     })
   },
   updateProductCart(store, product) {
     store.cart = store.cart.map((obj) =>
-      obj._id == product._id ? { ...product } : obj
+      obj._id === product._id ? { ...product } : obj
     )
   },
 }
 
 export const actions = {
   sendTransaction({ commit }, payload) {
-    return api.transactions.createTransaction(payload).then(({ data }) => {
+    return api.transactions.createTransaction(payload).then(() => {
       commit('sendTransaction', payload)
     })
   },
@@ -98,12 +98,12 @@ export const actions = {
       commit('updateProduct', data)
     })
   },
-  createProduct({ commit, dispatch }, payload) {
+  createProduct({ commit }, payload) {
     return api.products.createProduct(payload).then(({ data }) => {
       commit('createProduct', data)
     })
   },
-  getAllStats( {dispatch, commit }) {
+  getAllStats( { commit }) {
     return api.stats
       .getTop(5)
       .then((top) => {
@@ -118,14 +118,13 @@ export const actions = {
         })
       })
   },
-  getAllProducts({ dispatch, commit }) {
+  getAllProducts({  commit }) {
     return api.products
       .getAllProducts()
       .then((products) => {
         commit('setProducts', products.data)
       })
-      .catch((err) => {
-        console.error('err :>> ', err);
+      .catch(() => {
         return Promise.reject(new Error("can't get products"))
       })
   },

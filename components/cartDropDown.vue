@@ -5,7 +5,7 @@
     :nudge-width="200"
     offset-y
   >
-    <template v-slot:activator="{ on, attrs }">
+    <template #activator="{ on, attrs }">
       <v-btn color="indigo" dark v-bind="attrs" v-on="on">
         <v-icon>mdi-cart</v-icon> Cart ({{ cartItems().length }})
       </v-btn>
@@ -31,7 +31,9 @@
             <v-col>
               <v-list-item-action> {{ item.name }}</v-list-item-action>
             </v-col>
-            <v-col> <v-list-item-action>{{item.count}} </v-list-item-action></v-col>
+            <v-col>
+              <v-list-item-action>{{ item.count }} </v-list-item-action></v-col
+            >
             <v-col>
               <v-list-item-action>{{ item.price }}$</v-list-item-action>
             </v-col>
@@ -44,14 +46,12 @@
         <v-list-item>
           <v-row>
             <v-col>
-                <v-list-item-action> Total</v-list-item-action>
+              <v-list-item-action> Total</v-list-item-action>
             </v-col>
             <v-col>
-               <v-list-item-action>{{ cartTotal() }}$</v-list-item-action>
+              <v-list-item-action>{{ cartTotal() }}$</v-list-item-action>
             </v-col>
           </v-row>
-         
-         
         </v-list-item>
       </v-list>
       <v-card-actions>
@@ -68,20 +68,6 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   components: {},
-
-  methods: {
-    pay() {
-      this.sendTransaction({
-        products:this.cartItems()
-      })
-    },
-    ...mapActions(['sendTransaction']),
-    ...mapGetters(
-      // map this.count to store.state.count
-      { cartTotal: 'getCartTotal', cartItems: 'getCartItems' }
-    ),
-  },
-  created: function () {},
   data() {
     return {
       menu: false,
@@ -89,6 +75,18 @@ export default {
         items: 0,
       },
     }
+  },
+  methods: {
+    pay() {
+      this.sendTransaction({
+        products: this.cartItems(),
+      })
+    },
+    ...mapActions(['sendTransaction']),
+    ...mapGetters(
+      // map this.count to store.state.count
+      { cartTotal: 'getCartTotal', cartItems: 'getCartItems' }
+    ),
   },
 }
 </script>
