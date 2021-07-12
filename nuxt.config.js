@@ -17,11 +17,15 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
+  ssr: false,
   server: {
     port: process.env.FRONT_END_PORT // default: 3000
   },
+  env: {
+    baseUrl: 'http://frontend'
+  },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ["~/api/init.js",],
+  // plugins: ["~/api/init.server.js","~/api/init.client.js"],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -50,8 +54,21 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL:  process.env.BASE_URL,
+    browserBaseURL: process.env.BROWSER_BASE_URL 
+  },
+  // publicRuntimeConfig: {
+  //   axios: {
+  //     browserBaseURL: process.env.BROWSER_BASE_URL
+  //   }
+  // },
 
+  // privateRuntimeConfig: {
+  //   axios: {
+  //     baseURL: process.env.BASE_URL
+  //   }
+  // },
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {

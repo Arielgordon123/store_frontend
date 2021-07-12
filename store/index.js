@@ -125,6 +125,7 @@ export const actions = {
         commit('setProducts', products.data)
       })
       .catch((err) => {
+        console.error('err :>> ', err);
         return Promise.reject(new Error("can't get products"))
       })
   },
