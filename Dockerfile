@@ -1,28 +1,16 @@
-FROM node:12.19.1-alpine
+FROM node:14
 
-# create destination directory
-RUN mkdir -p /usr/src/frontend
-WORKDIR /usr/src/frontend
+WORKDIR /usr/src/app
 
-# update and install dependency
-RUN apk update && apk upgrade
-RUN apk add git
+COPY package.json yarn.lock ./
+RUN yarn
 
-# copy the app, note .dockerignore
-COPY . /usr/src/frontend/
-RUN npm install
-
-# build necessary, even if no static files are needed,
-# since it builds the server as well
-RUN npm run build
-
-# expose 5000 on container
+COPY . .
 EXPOSE 8000
 
-# set app serving to permissive / assigned
-ENV NUXT_HOST=0.0.0.0
-# set app port
-ENV FRONT_END_PORT=8000
+ENV HOST=0.0.0.0
+ENV PORT=8000
 
-# start the app
-CMD [ "npm", "start" ]
+RUN yarn build
+
+CMD [ "yarn", "start" ]
