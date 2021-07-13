@@ -11,7 +11,7 @@
       </v-btn>
     </template>
 
-    <v-card>
+    <v-card v-if="cartItems().length">
       <v-list>
         <v-list-item>
           <v-row>
@@ -59,6 +59,9 @@
 
         <v-btn color="primary" @click="pay"> Pay </v-btn>
       </v-card-actions>
+    </v-card>
+    <v-card v-else>
+      <v-card-actions>No Items on shopping cart</v-card-actions>
     </v-card>
   </v-menu>
 </template>
