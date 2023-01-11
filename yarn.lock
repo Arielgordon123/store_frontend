@@ -10746,10 +10746,10 @@ vuetify-loader@^1.7.2:
     file-loader "^6.2.0"
     loader-utils "^2.0.0"
 
-vuetify@^2.5.3, vuetify@^2.5.5:
-  version "2.5.6"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.5.6.tgz#9cbb1eacece6c42028216312b9be23e35a7f5cf4"
-  integrity sha512-2T8ML5PYuJ/AdMVH3ZIvzHnsM0nX8t4Xzj+0HFFGfLT7jLlptCFpG+JE8+kyrgGZlbUgulyOwCUu8hJkVsReFA==
+vuetify@^2.5.3, vuetify@^2.6.14:
+  version "2.6.14"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.6.14.tgz#a5bf662de938efe0450ac59776b04f760f5407d2"
+  integrity sha512-nr6wU3uTzhhEPssH23cW0Ee/hCrayp7cjl3nNjM2OmNwiJlV91tZiL1VO3597SqZyjh1xIa+m9J2rpKTSdIlrA==
 
 vuex@^3.6.2:
   version "3.6.2"
